@@ -1,0 +1,8 @@
+name 'castest'
+version '0.0.1'
+source 'git://github.com/vkojuharova/vagrant-iam-castest-poc.git'
+author 'Harvard University'
+license 'The President and Fellows of Harvard College'
+summary 'IAM module to deploy castest applicaiton'
+description 'Deploys castest web application to Tomcat'
+project_page ''
