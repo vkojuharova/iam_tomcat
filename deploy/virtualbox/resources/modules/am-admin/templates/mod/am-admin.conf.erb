@@ -1,0 +1,22 @@
+#
+# mod_auth_cas is an Apache 2.0/2.2 compliant module that supports the
+# CASv1 and CASv2 protocols
+#
+
+<Location /am-admin>
+</Location>
+
+ProxyRequests On
+ProxyPreserveHost On
+<Proxy *>
+        Order deny,allow
+        Allow from all
+</Proxy>
+
+ProxyPass       /am-admin ajp://<%= @servername %>:<%= @ajp_port %>/am-admin
+ProxyPass       /manager ajp://<%= @servername %>:<%= @ajp_port %>/manager
+
+
+
+
+
