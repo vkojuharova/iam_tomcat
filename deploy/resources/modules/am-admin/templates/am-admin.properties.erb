@@ -1,0 +1,23 @@
+# Currently LDAP is not used
+######################################
+ldap.url=ldap://itis-ldapdev.harvard.edu:9963
+ldap.base=o=data,dc=auth,dc=harvard,dc=edu
+ldap.userdn=uid=pin-login,ou=ldap-apps,dc=auth,dc=harvard,dc=edu
+#ldap.password=ENC(yS4qcEkF4WAWNEZFl1OHZJzJTyFBLTeS)
+ldap.password=!T!Sp1nl0g1n
+
+# Currently only database is used
+#####################################
+dataSource.driverClassName=org.postgresql.Driver
+dataSource.url=jdbc:postgresql://<%= @servername %>/iamdev
+dataSource.username=adminappaccess
+dataSource.password=2orange4me
+dataSource.databasePlatform=org.hibernate.dialect.PostgreSQL82Dialect
+dataSource.database=POSTGRESQL
+
+# Currently not used
+####################################
+#cas.service.host=uiswhlpt3622005.university.harvard.edu:8016
+#cas.server.host=uiswhlpt3622005.university.harvard.edu:8016
+
+#sp.metadata.template=C:/u02/app/iam/template/spMetadataTemplate.xml
