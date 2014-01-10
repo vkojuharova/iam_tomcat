@@ -45,6 +45,7 @@ define mod_auth_cas::vhost (
       $cas_login_url               = 'https://stage.pin1.harvard.edu/cas/login',
       $cas_validate_url            = 'https://stage.pin1.harvard.edu/cas/samlValidate',
       $default_ssl_cert            = $apache::params::default_ssl_cert,
+      $location                    = undef,
       $directories                 = undef,
       $docroot                     = undef,
       $ip                          = undef,
@@ -74,12 +75,9 @@ include  mod_auth_cas::params
         mode    => '0777',
   }
 
-  notice("DEBUG::mod_auth_cas::vhost confd_dir is
-  ${mod_auth_cas::params::confd_dir}")
+ notice("DEBUG::mod_auth_cas::location is ${location}")
 
-  notice("DEBUG::mod_auth_cas::vhost servername is ${servername}")
-
-  file {  'auth_cas':
+ file {  'auth_cas':
         ensure  => file,
         path    => "${mod_auth_cas::params::confd_dir}/auth_cas.conf",
         content => template ('mod_auth_cas/mod/auth_cas.conf.erb'),
