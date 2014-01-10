@@ -26,14 +26,6 @@ CASVersion         2
 
 CASValidateSAML     On
 
-
-<Location /castest>
-AuthType CAS
-require valid-user
-
-CASAuthNHeader CAS_USER
-</Location>
-
 ProxyRequests On
 ProxyPreserveHost On
 <Proxy *>
@@ -41,7 +33,24 @@ ProxyPreserveHost On
         Allow from all
 </Proxy>
 
+#######################
+# TODO
+# Move all the hardcoded staff below
+#########################
+<Location /castest>
+AuthType CAS
+require valid-user
+
+CASAuthNHeader CAS_USER
+</Location>
+
+<Location /am-admin>
+</Location>
+
 ProxyPass       /castest ajp://<%= @servername %>:<%= @ajp_port %>/castest
+
+ProxyPass       /am-admin ajp://<%= @servername %>:<%= @ajp_port %>/am-admin
+ProxyPass       /manager ajp://<%= @servername %>:<%= @ajp_port %>/manager
 
 
 

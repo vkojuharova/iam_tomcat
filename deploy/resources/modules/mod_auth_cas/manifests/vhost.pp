@@ -97,7 +97,6 @@ include  mod_auth_cas::params
 
 
   apache::vhost{$::fqdn:
-#    vhost_name     => 'localhost',
     port            => $port,
     serveradmin     => 'vanja_kojuharova@harvard.edu',
     access_log_file => 'castest_access_log.log',
@@ -105,8 +104,7 @@ include  mod_auth_cas::params
     docroot         => $docroot,
     ssl             => true,
     custom_fragment =>
-        "Include ${mod_auth_cas::params::confd_dir}/auth_cas.conf
-		Include ${mod_auth_cas::params::confd_dir}/am-admin.conf",
+        "Include ${mod_auth_cas::params::confd_dir}/auth_cas.conf",
     sslproxyengine  => true ,
     directories     => [
         { path      => $docroot,
@@ -117,32 +115,4 @@ include  mod_auth_cas::params
     servername      => $servername,
     ip              => $ip,
   }
-
-# We don't care where the file is located, just what to put in it.
-# concat::fragment {'apache-vhost-myvhost-main':
-#  target  => 'apache-vhost-myvhost',
-#  content => '<virtualhost *:80>',
-#  order   => 01,
-# }
-
-# concat::fragment {'apache-vhost-myvhost-close':
-#  target  => 'apache-vhost-myvhost',
-#  content => 'Include </virtualhost>',
-#  order   => 99,
-# }
-
-#    define mod_auth_cas::vhost {
-#          $addr_port = $name
-#      include mod_auth_cas::params
-#
-#      # Template uses: $addr_port
-#      concat::fragment { "NameVirtualHost ${addr_port}":
-#        target  => $apache::params::ports_file,
-#        content => template('apache/namevirtualhost.erb'),
-#      }
-#    }
-
-
-
-
 }
