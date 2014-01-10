@@ -71,23 +71,25 @@ node default {
 # Install and configure Tomcat
 # according to IAM Tomcat installations
 # =====================================
-  class { 'tomcat_iam':
+  class { 'iam_tomcat':
     shutdown_port     => $shutdown_port,
     ajp_port          => $ajp_port,
     http_port         => $http_port,
     auto_deploy       => false,
     http_enabled      => $http_enabled,
-#    host_name         => 'castest',
     version           => $tomcat_version,
+    java_opts         => '-XX:PermSize=128m -XX:MaxPermSize=128m -Xms512m -Xmx512m',
+    install_dir       => '/usr/share',
   }
 
 # ====================================
 # Deploy castest application
 # ====================================
+  $deploy_dir = "${tomcat::install_dir}/tomcat/webapps"
   class{'castest':}
 
   castest::deploy{'castest':
-    deploy_dir  =>   "${tomcat::install_dir}/tomcat/webapps",
+    deploy_dir  =>   $deploy_dir,
     path        =>  'puppet:///modules/castest/castest.war',
   }
 
@@ -103,7 +105,7 @@ node default {
   class{'am-admin':}
 
   am-admin::deploy{'am-admin':
-    deploy_dir  =>  "${tomcat::install_dir}/tomcat/webapps",
+    deploy_dir  =>  $deploy_dir,
     path        =>  'puppet:///modules/am-admin/am-admin.war',
   }
 
@@ -127,9 +129,9 @@ node default {
 ###########################################
 #class { 'postgresql::server': }
 
-#postgresql::server::db { 'IAMDEV':
-#  user     => 'ADMINAPPACCESS',
-#  password => postgresql_password('ADMINAPPACCESS', '2orange4me'),
+#postgresql::server::db { 'iamdev':
+#  user     => 'adminappaccess',
+#  password => postgresql_password('adminappaccess', '2orange4me'),
 #}
 
 }
