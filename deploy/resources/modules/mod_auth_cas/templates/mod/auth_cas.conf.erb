@@ -33,25 +33,17 @@ ProxyPreserveHost On
         Allow from all
 </Proxy>
 
-#######################
-# TODO
-# Move all the hardcoded staff below
-#########################
-<Location /castest>
-AuthType CAS
-require valid-user
+<% [@location].flatten.compact.each do |location| %>
+  <Location /<%= location['path'] %> >
+      AuthType CAS
+      require valid-user
+      CASAuthNHeader CAS_USER
+  </Location>
+<% end %>
 
-CASAuthNHeader CAS_USER
-</Location>
-
-<Location /am-admin>
-</Location>
-
-ProxyPass       /castest ajp://<%= @servername %>:<%= @ajp_port %>/castest
-
-ProxyPass       /am-admin ajp://<%= @servername %>:<%= @ajp_port %>/am-admin
-ProxyPass       /manager ajp://<%= @servername %>:<%= @ajp_port %>/manager
-
+<% [@proxy_pass].flatten.compact.each do |proxy_pass| %>
+ProxyPass       /<%= proxy_pass['path'] %> ajp://<%= proxy_pass['host'] %>:<%= proxy_pass['ajp_port'] %>/<%= proxy_pass['app_name'] %>
+<% end %>
 
 
 
