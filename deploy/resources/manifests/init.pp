@@ -49,6 +49,23 @@ node default {
 # ===================================
   class { 'mod_auth_cas': }
 
+  $location = [
+    {'path'   => 'castest'},
+#    {'path'   => 'am-admin'},
+    ]
+
+ notice("DEBUG::main servername is ${servername}")
+ notice("DEBUG::main servername top is ${::servername}")
+ notice("DEBUG::main servername facter is ${servername}")
+  $proxy_pass = [
+    {'path'   => 'castest', 'host'  => $servername, 'ajp_port'  => $ajp_port,
+            app_name    => 'castest'},
+    {'path'   => 'am-admin', 'host' => $servername, 'ajp_port'  => $ajp_port,
+            app_name    => 'am_admin'},
+    {'path'   => 'manager', 'host'  => $servername, 'ajp_port'  => $ajp_port,
+            app_name    => 'manager'},
+  ]
+
   mod_auth_cas::vhost{'mod_auth_cas_vhost':
     mod_auth_cas      => true,
     proxy_ajp         => true,
@@ -65,6 +82,7 @@ node default {
       'https://webdev1ox.iam.huit.harvard.edu:8016/cas/login',
     cas_validate_url  =>
       'https://webdev1ox.iam.huit.harvard.edu:8016/cas/samlValidate',
+    location          => $location,
   }
 
 # =====================================
