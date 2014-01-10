@@ -3,8 +3,7 @@
 class am-admin {
 
   include tomcat
-  
-  #include mod_auth_cas::params
+
   include apache::params
 
   notice("DEBUG::am-admin::init:: Establishing http://${::hostname}/${::name}/")

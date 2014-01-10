@@ -23,16 +23,13 @@ define am-admin::deploy(
 
   require tomcat
 
-  notice("DEBUG::am-admin::deploy Tomcat deploy dir is ${deploy_dir}")
+  notice("DEBUG::am-admin::deploy datasource_driver is ${datasource_driver}")
 
-  notice("DEBUG::am-admin::deploy path is ${path}")
-
-  notice("DEBUG::am-admin::deploy servername is ${servername}")
-
-  notice("DEBUG::am-admin::deploy war file name is ${name}.war")
+  notice("DEBUG::am-admin::deploy datasource_username is ${datasource_username}")
 
   file { "${deploy_dir}/${name}.war":
-    owner   => 'root',
+    owner   => 'tomcat',
+    group   => 'tomcat',
     source  => $path,
   }
 
@@ -43,24 +40,20 @@ define am-admin::deploy(
     require => Exec["mkdir ${apache::mod_dir}"],
     before  => File [$apache::mod_dir],
   }
-
-  $tomcat_lib_dir            = "${tomcat::config::install_dir}/tomcat/lib"
-  $tomcat_bin_dir            = "${tomcat::config::install_dir}/tomcat/bin"
-
 #####################################
 # Add properties file to classpath
+# tomcat::config::app_config_dir
 #####################################
-
-
 
   file {  'am-admin-properties':
     ensure  => file,
-    path    => "${tomcat_lib_dir}/am-admin.properties",
+    path    => "${tomcat::config::app_config_dir}/am-admin.properties",
     content => template ('am-admin/am-admin.properties.erb'),
     owner   => 'tomcat',
     group   => 'tomcat',
   }
 
+  $tomcat_lib_dir            = "${tomcat::config::install_dir}/tomcat/lib"
   file { 'postgres_driver':
     path    =>
     "${tomcat_lib_dir}/postgresql-9.3-1100.jdbc41.jar",

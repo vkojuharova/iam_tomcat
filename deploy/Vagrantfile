@@ -56,8 +56,15 @@ Vagrant.configure('2') do |config|
     # https://HOST_IP:APACHE_SSL_PORT/castest
     # http://HOST:TOMCAT_HTTP_PORT/castest
     puppet.facter = {
-          "servername"  => HOST_IP,
-          "fqdn"        => HOST_IP,
+          "servername"          => HOST_IP,
+          "fqdn"                => HOST_IP,
+          "datasource_driver"   => "org.postgresql.Driver",
+          "datasource_url"      => "jdbc:postgresql://10.38.1.81:5432/iddbpoc1",
+          "datasource_username" => "adminappaccess",
+          "datasource_password" => "2orange4me",
+          "datasource_dialect"  => "org.hibernate.dialect.PostgreSQL82Dialect",
+          "datasource_database" => "POSTGRESQL",
+          "datasource_query"    => "select version()",
     }
     puppet.manifests_path = "resources/manifests"
     puppet.manifest_file  = "init.pp"
