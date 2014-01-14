@@ -7,7 +7,7 @@ node default {
   $shutdown_port        = '8005'
   $http_port            = '8016'
   $http_enabled         = true
-  $tomcat_version       = '7.0.47'
+  $tomcat_version       = '7.0.50'
 
   stage { 'pre': before => Stage['main'] }
   class { 'epel': stage => 'pre' }
